@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							$("#token").val(data);
 						}
 					});
-				})
+				});
 				
 				
 				$("#validtoken").on('click',function (e) {
