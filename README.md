@@ -1,4 +1,21 @@
 #JWT
+##项目介绍
+```
+.
+├── README.md
+├── src
+|    └── com
+|        ├── jwt
+|        │   └── Jwt.java
+|        │   └── Test.java
+|        |
+|        └── servlet
+|            └── AuthorServlet.java
+├── WebRoot
+|   |── WEB-INFO
+|   |── index.jsp
+|   └── jquery-2.1.0.js
+```
 
 本仓库依赖于下面jar包：
 + nimbus-jose-jwt-4.13.1.jar (一款开源的成熟的JSON WEB TOKEN 解决方法，本仓库的代码是对其的进一步封装)
