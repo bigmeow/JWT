@@ -58,7 +58,7 @@ System.out.println("token:"+token);
 String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIyOTE5Njk0NTIiLCJpYXQiOjE0NjA0MzE4ODk2OTgsImV4dCI6MTQ2MDQzNTQ4OTY5OH0.RAa71BnklRMPyPhYBbxsfJdtXBnXeWevxcXLlwC2PrY";
 Map<String, Object> result=Jwt.validToken(token);
 Boolean isSuccess=(Boolean) result.get("isSuccess");;//校验是否成功
-Number statusr=(Number) result.get("status");//状态码 -1失效   0token不一致   1校验成功   2代码异常
+Number statusr=(Number) result.get("status");//状态码 -1过期失效   0token不一致   1校验成功   2代码异常
 JSONObject object= (JSONObject) result.get("data");//取出token中保存的数据，注意，该JSONObject的完整包名是net.minidev.json.JSONObject
 
 
