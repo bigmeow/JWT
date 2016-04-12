@@ -29,3 +29,34 @@
    * FAIL     token不一致
    * SUCCESS  token校验成功
    * EXCEPT   代码抛异常（校验token时代码出错）
+   
+   
+##使用示例
+###获取token
+
+```Java
+Map<String , Object> payload=new HashMap<String, Object>();
+Date date=new Date();
+payload.put("uid", "291969452");//用户id
+payload.put("iat", date.getTime());//生成时间
+payload.put("ext",date.getTime()+1000*60*60);//过期时间1小时
+String token=null;
+try {
+	token=Jwt.createToken(payload);
+} catch (KeyLengthException e) {
+	e.printStackTrace();
+}
+System.out.println("token:"+token);
+
+```
+
+###校验token
+```Java
+String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIyOTE5Njk0NTIiLCJpYXQiOjE0NjA0MzE4ODk2OTgsImV4dCI6MTQ2MDQzNTQ4OTY5OH0.RAa71BnklRMPyPhYBbxsfJdtXBnXeWevxcXLlwC2PrY";
+Map<String, Object> result=Jwt.validToken(token);
+Boolean isSuccess=(Boolean) result.get("isSuccess");;//校验是否成功
+Number statusr=(Number) result.get("status");//状态码 -1失效   0token不一致   1校验成功   2代码异常
+JSONObject object= (JSONObject) result.get("data");//取出token中保存的数据，注意，该JSONObject的完整包名是net.minidev.json.JSONObject
+
+
+```
