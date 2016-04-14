@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jwt.Jwt;
-import com.nimbusds.jose.KeyLengthException;
 @WebServlet(urlPatterns="/author/token",loadOnStartup=1,description="生成token的方法")
 public class AuthorServlet extends HttpServlet {
 
@@ -25,16 +24,11 @@ public class AuthorServlet extends HttpServlet {
 			throws ServletException, IOException {
 			String token=request.getHeader("token");
 			System.out.println(token);
-			try {
-				Map<String, Object> result=Jwt.validToken(token);
-				PrintWriter out = response.getWriter();
-				out.println(result.get("isSuccess"));
-				out.flush();
-				out.close();
-			} catch (KeyLengthException e) {
-				System.out.println("异常");
-				e.printStackTrace();
-			}
+			Map<String, Object> result=Jwt.validToken(token);
+			PrintWriter out = response.getWriter();
+			out.println(result.get("isSuccess"));
+			out.flush();
+			out.close();
 	}
 	
 	public void doPut(HttpServletRequest request, HttpServletResponse response)
@@ -45,11 +39,7 @@ public class AuthorServlet extends HttpServlet {
 		payload.put("iat", date.getTime());//生成时间
 		payload.put("ext",date.getTime()+1000*60*60);//过期时间1小时
 		String token=null;
-		try {
-			token=Jwt.createToken(payload);
-		} catch (KeyLengthException e) {
-			e.printStackTrace();
-		}
+		token=Jwt.createToken(payload);
 		
 		response.setContentType("text/html;charset=UTF-8;");
 		Cookie cookie=new Cookie("token", token);
