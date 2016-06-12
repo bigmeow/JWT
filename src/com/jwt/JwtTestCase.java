@@ -1,0 +1,116 @@
+package com.jwt;
+
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.Test;
+/**
+ * 单元测试(请自行引入junit4  Jar包)
+ * @author running@vip.163.com
+ *
+ */
+public class JwtTestCase {
+	@Test
+	@SuppressWarnings("unchecked")
+	public void test1() {
+		// 正常生成token----------------------------------------------------------------------------------------------------
+		String token = null;
+		Map<String, Object> payload = new HashMap<String, Object>();
+		Date date = new Date();
+		payload.put("uid", "291969452");// 用户id
+		payload.put("iat", date.getTime());// 生成时间:当前
+		payload.put("ext", date.getTime() + 2000 * 60 * 60);// 过期时间2小时
+		try {
+			token = Jwt.createToken(payload);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("新生成的token是：" + token);
+		System.out.println("将新生成的token马上进行校验");
+		Map<String, Object> resultMap = Jwt.validToken(token);
+		System.out.println("校验结果是:" + resultMap.get("isSuccess"));
+		HashMap<String,String> dataobj =  (HashMap<String,String>) resultMap.get("data");
+		System.out.println("从token中取出的数据是：" +dataobj.toString());
+
+	}
+	
+	public void test2() {
+		// 校验过期----------------------------------------------------------------------------------------------------
+		String token = null;
+		Map<String, Object> payload = new HashMap<String, Object>();
+		Date date = new Date();
+		payload.put("uid", "291969452");// 用户id
+		payload.put("iat", date.getTime());// 生成时间
+		payload.put("ext", date.getTime());// 过期时间就是当前
+		try {
+			token = Jwt.createToken(payload);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("新生成的token是：" + token);
+		System.out.println("将新生成的token马上进行校验");
+		Map<String, Object> resultMap = Jwt.validToken(token);
+		System.out.println("校验结果是:" + resultMap.get("isSuccess"));
+		System.out.println("false的原因是（-1标识过期）:" + resultMap.get("status"));
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void test2_1() {
+		// 不校验过期（当payload中无过期ext字段时）----------------------------------------------------------------------------------------------------
+		String token = null;
+		Map<String, Object> payload = new HashMap<String, Object>();
+		Date date = new Date();
+		payload.put("uid", "291969452");// 用户id
+		payload.put("iat", date.getTime());// 生成时间
+		try {
+			token = Jwt.createToken(payload);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("新生成的token是：" + token);
+		System.out.println("将新生成的token马上进行校验");
+		Map<String, Object> resultMap = Jwt.validToken(token);
+		System.out.println("校验结果是:" + resultMap.get("isSuccess"));
+		HashMap<String,String> dataobj =  (HashMap<String,String>) resultMap.get("data");
+		System.out.println("从token中取出的数据是：" +dataobj.toString());
+
+	}
+	
+	public void test3() {
+		// 校验非法token的情况----------------------------------------------------------------------------------------------------
+		String token = null;
+		Map<String, Object> payload = new HashMap<String, Object>();
+		Date date = new Date();
+		payload.put("uid", "291969452");// 用户id
+		payload.put("iat", date.getTime());// 生成时间
+		payload.put("ext", date.getTime());// 过期时间就是当前
+		
+		try {
+			token = Jwt.createToken(payload);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("新生成的token是：" + token);
+		System.out.println("将新生成的token加点调料再来进行校验");
+		token = token + "YouAreSB";
+		Map<String, Object> resultMap = Jwt.validToken(token);
+		System.out.println("校验结果是:" + resultMap.get("isSuccess"));
+		System.out.println("false的原因是（0非法token，playload参数可能经过中间人篡改，或者别人伪造的token）:" + resultMap.get("status"));
+
+	}
+
+	public void test4() {
+		// 校验异常的情况----------------------------------------------------------------------------------------------------
+		String token = "123";
+		System.out.println("我胡乱传一个token" + token);
+		Map<String, Object> resultMap = Jwt.validToken(token);
+		System.out.println("校验结果是:" + resultMap.get("isSuccess"));
+		System.out.println("false的原因是（2 token不合法导致的程序异常）:"+ resultMap.get("status"));
+
+	}
+	
+
+}
