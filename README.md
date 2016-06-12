@@ -9,7 +9,7 @@
 |        |   └── CrossOriginResourceFilter.java 
 |        ├── jwt
 |        │   └── Jwt.java
-|        │   └── Test.java
+|        │   └── JwtTestCase.java
 |        |
 |        └── servlet
 |            └── AuthorServlet.java
@@ -23,6 +23,7 @@
 + nimbus-jose-jwt-4.13.1.jar (一款开源的成熟的JSON WEB TOKEN 解决方法，本仓库的代码是对其的进一步封装)
 + json-smart-2.0-RC2.jar和asm-1.0-RC1.jar (依赖jar包，主要用于JSONObject序列化)
 + cors-filter-2.2.1.jar和java-property-utils-1.9.1.jar（用于处理跨域ajax请求）
++ junit.jar（单元测试相关jar包）
 
 
 核心类Jwt.java结构：
