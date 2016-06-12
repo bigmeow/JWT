@@ -59,21 +59,21 @@ public class Jwt {
 	 * 生成token，该方法只在用户登录成功后调用
 	 * 
 	 * @param Map集合，主要存储用户id，token生成时间，token过期时间等
-	 * @return token字符串
-	 * @throws KeyLengthException
+	 * @return token字符串,若失败则返回null
 	 */
 	public static String createToken(Map<String, Object> playLoad) {
-		Payload payload = new Payload(new JSONObject(playLoad));
+		String tokenString=null;
 		// 创建一个 JWS object
-		JWSObject jwsObject = new JWSObject(header, payload);
+		JWSObject jwsObject = new JWSObject(header, new Payload(new JSONObject(playLoad)));
 		try {
 			// 将jwsObject 进行HMAC签名
 			jwsObject.sign(new MACSigner(SECRET));
+			tokenString=jwsObject.serialize();
 		} catch (JOSEException e) {
-			System.err.println("签名失败" + e.getMessage());
+			System.err.println("签名失败:" + e.getMessage());
 			e.printStackTrace();
 		}
-		return jwsObject.serialize();
+		return tokenString;
 	}
     
     
