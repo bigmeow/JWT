@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$("#validtoken").on('click',function (e) {
 					var token=$.trim($("#token").val());
 					if(!token.length){
-						alert("请先获取token")
+						alert("请先获取token");
 						return;
 					}
 					$.ajax({
@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							$("#result").val(data);
 						}
 					});
-				})
+				});
 				
 			})
 		</script>
