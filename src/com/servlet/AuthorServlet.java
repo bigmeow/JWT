@@ -26,7 +26,7 @@ public class AuthorServlet extends HttpServlet {
 			System.out.println(token);
 			Map<String, Object> result=Jwt.validToken(token);
 			PrintWriter out = response.getWriter();
-			out.println(result.get("isSuccess"));
+			out.println(result.toString());
 			out.flush();
 			out.close();
 	}

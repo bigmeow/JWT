@@ -16,8 +16,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<textarea id="token" rows="5" cols="25" style="width: 300px;" placeholder="token值"></textarea>
 		<br />
 		<br />
-		<button id="validtoken">点击验证上面的token</button>
-		<textarea id="result" readonly rows="5" cols="25" style="width: 300px;" placeholder="验证结果"></textarea>
+		<button id="validtoken">点击解析上面的token</button><br/>
+		
+		<textarea id="result" readonly rows="5" cols="25" style="width: 300px;" placeholder="数据解析结果"></textarea>
 		
 		
 		<script src="jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
@@ -49,6 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                        request.setRequestHeader("token", token);
 	                    },
 						success:function (data) {
+							debugger
 							$("#result").val(data);
 						}
 					});
