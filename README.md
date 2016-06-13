@@ -28,11 +28,11 @@
 
 核心类Jwt.java结构：
 > 2个静态方法createToken和validToken，分别用于生成TOKEN和校验TOKEN;
-> 定义了4个静态常量状态，用于表示验证token时的结果：
+> 定义了枚举TokenState，用于表示验证token时的结果，用户可根据结果进行不同处理：
    * EXPIRED  token过期
-   * FAIL     token不一致
-   * SUCCESS  token校验成功
-   * EXCEPT   代码抛异常（校验token时代码出错）
+   * INVALID  token无效（包括token不合法，token格式不对，校验时异常）
+   * VALID    token有效
+
    
    
 ##使用示例
@@ -44,24 +44,33 @@ Date date=new Date();
 payload.put("uid", "291969452");//用户id
 payload.put("iat", date.getTime());//生成时间
 payload.put("ext",date.getTime()+1000*60*60);//过期时间1小时
-String token=null;
-try {
-	token=Jwt.createToken(payload);
-} catch (KeyLengthException e) {
-	e.printStackTrace();
-}
+String token=Jwt.createToken(payload);
 System.out.println("token:"+token);
 
 ```
 
 ###校验token
 ```Java
+
 String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIyOTE5Njk0NTIiLCJpYXQiOjE0NjA0MzE4ODk2OTgsImV4dCI6MTQ2MDQzNTQ4OTY5OH0.RAa71BnklRMPyPhYBbxsfJdtXBnXeWevxcXLlwC2PrY";
 Map<String, Object> result=Jwt.validToken(token);
-Boolean isSuccess=(Boolean) result.get("isSuccess");;//校验是否成功
-Number statusr=(Number) result.get("status");//状态码 -1过期失效   0token不一致   1校验成功   2代码异常
-HashMap<String,String> dataobj =  (HashMap<String,String>) result.get("data");//取出token中保存的数据
-System.out.println("从token中取出的数据是：" +dataobj.toString());
+
+String state=(String)result.get("state");
+switch (TokenState.getTokenState(state)) {
+case VALID:
+	//To do somethings
+	System.out.println("有效token");
+	break;
+case EXPIRED:
+	System.out.println("过期token");
+	break;
+case INVALID:
+	System.out.println("无效的token");
+	break;
+}
+
+System.out.println("返回结果数据是：" +result.toString());
+	
 
 
 ```
