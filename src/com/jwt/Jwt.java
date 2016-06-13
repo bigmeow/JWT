@@ -20,26 +20,7 @@ import net.minidev.json.JSONObject;
  *
  */
 public class Jwt {
-
-    /**
-     * token过期(token失效了)
-     */
-    public static final Integer EXPIRED=-1; 
-    
-    /**
-     * 校验失败（token不一致）
-     */
-    public static final Integer FAIL=0;
-    
-    /**
-     * 校验成功
-     */
-    public static final Integer SUCCESS=1;
-    
-    /**
-     * 代码抛异常（校验token时代码出错）
-     */
-    public static final Integer EXCEPT=2;
+	
     
     /**
      * 秘钥
@@ -58,7 +39,7 @@ public class Jwt {
 	/**
 	 * 生成token，该方法只在用户登录成功后调用
 	 * 
-	 * @param Map集合，主要存储用户id，token生成时间，token过期时间等
+	 * @param Map集合，可以存储用户id，token生成时间，token过期时间等自定义字段
 	 * @return token字符串,若失败则返回null
 	 */
 	public static String createToken(Map<String, Object> playLoad) {
@@ -79,7 +60,7 @@ public class Jwt {
     
     
     /**
-     * 校验token是否合法，返回Map集合,集合中主要包含  isSuccess是否成功  status状态码   data鉴权成功后从token中提取的数据
+     * 校验token是否合法，返回Map集合,集合中主要包含    state状态码   data鉴权成功后从token中提取的数据
      * 该方法在过滤器中调用，每次请求API时都校验
      * @param token
      * @return  Map<String, Object>
@@ -93,13 +74,9 @@ public class Jwt {
 
 			if (jwsObject.verify(verifier)) {
 				JSONObject jsonOBj = payload.toJSONObject();
-				HashMap<String, Object> test=jsonOBj;
-				System.out.println(test.get("uid"));
 				// token校验成功（此时没有校验是否过期）
-				resultMap.put("isSuccess", true);
-				resultMap.put("status", SUCCESS);
+				resultMap.put("state", TokenState.VALID.toString());
 				resultMap.put("data", jsonOBj);
-
 				// 若playload包含ext字段，则校验是否过期
 				if (jsonOBj.containsKey("ext")) {
 					long extTime = (long) jsonOBj.get("ext");
@@ -107,27 +84,75 @@ public class Jwt {
 					// 过期了
 					if (curTime > extTime) {
 						resultMap.clear();
-						resultMap.put("isSuccess", false);
-						resultMap.put("status", EXPIRED);
-						System.out.println("token过期");
+						resultMap.put("state", TokenState.EXPIRED.toString());
 					}
 				}
 
 			} else {
 				// 校验失败
-				resultMap.put("isSuccess", false);
-				resultMap.put("status", FAIL);
+				resultMap.put("state", TokenState.INVALID.toString());
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			// token格式不合法导致的异常
 			resultMap.clear();
-			resultMap.put("isSuccess", false);
-			resultMap.put("status", EXCEPT);
+			resultMap.put("state", TokenState.INVALID.toString());
 		}
 		return resultMap;
 	}	
     
-	
 }
+
+/**
+ * 枚举，定义token的三种状态
+ * @author running@vip.163.com
+ *
+ */
+ enum TokenState {  
+	 /**
+	  * 过期
+	  */
+	EXPIRED("EXPIRED"),
+	/**
+	 * 无效(token不合法)
+	 */
+	INVALID("INVALID"), 
+	/**
+	 * 有效的
+	 */
+	VALID("VALID");  
+	
+    private String  state;  
+      
+    private TokenState(String state) {  
+        this.state = state;  
+    }
+    
+    /**
+     * 根据状态字符串获取token状态枚举对象
+     * @param tokenState
+     * @return
+     */
+    public static TokenState getTokenState(String tokenState){
+    	TokenState[] states=TokenState.values();
+    	TokenState ts=null;
+    	for (TokenState state : states) {
+			if(state.toString().equals(tokenState)){
+				ts=state;
+				break;
+			}
+		}
+    	return ts;
+    }
+    public String toString() {
+    	return this.state;
+    }
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+    
+}  

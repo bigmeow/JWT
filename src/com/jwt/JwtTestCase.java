@@ -27,15 +27,14 @@ public class JwtTestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("新生成的token是：" + token);
-		System.out.println("将新生成的token马上进行校验");
+		System.out.println("新生成的token是：" + token+"\n马上将该token进行校验");
 		Map<String, Object> resultMap = Jwt.validToken(token);
-		System.out.println("校验结果是:" + resultMap.get("isSuccess"));
+		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
 		HashMap<String,String> dataobj =  (HashMap<String,String>) resultMap.get("data");
-		System.out.println("从token中取出的数据是：" +dataobj.toString());
+		System.out.println("从token中取出的playload数据是：" +dataobj.toString());
 
 	}
-	
+
 	public void test2() {
 		// 校验过期----------------------------------------------------------------------------------------------------
 		String token = null;
@@ -49,11 +48,9 @@ public class JwtTestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("新生成的token是：" + token);
-		System.out.println("将新生成的token马上进行校验");
+		System.out.println("新生成的token是：" + token+"\n马上将该token进行校验");
 		Map<String, Object> resultMap = Jwt.validToken(token);
-		System.out.println("校验结果是:" + resultMap.get("isSuccess"));
-		System.out.println("false的原因是（-1标识过期）:" + resultMap.get("status"));
+		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
 
 	}
 	
@@ -70,12 +67,11 @@ public class JwtTestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("新生成的token是：" + token);
-		System.out.println("将新生成的token马上进行校验");
+		System.out.println("新生成的token是：" + token+"\n马上将该token进行校验");
 		Map<String, Object> resultMap = Jwt.validToken(token);
-		System.out.println("校验结果是:" + resultMap.get("isSuccess"));
+		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
 		HashMap<String,String> dataobj =  (HashMap<String,String>) resultMap.get("data");
-		System.out.println("从token中取出的数据是：" +dataobj.toString());
+		System.out.println("从token中取出的playload数据是：" +dataobj.toString());
 
 	}
 	
@@ -97,20 +93,36 @@ public class JwtTestCase {
 		System.out.println("将新生成的token加点调料再来进行校验");
 		token = token + "YouAreSB";
 		Map<String, Object> resultMap = Jwt.validToken(token);
-		System.out.println("校验结果是:" + resultMap.get("isSuccess"));
-		System.out.println("false的原因是（0非法token，playload参数可能经过中间人篡改，或者别人伪造的token）:" + resultMap.get("status"));
-
-	}
-
-	public void test4() {
-		// 校验异常的情况----------------------------------------------------------------------------------------------------
-		String token = "123";
-		System.out.println("我胡乱传一个token" + token);
-		Map<String, Object> resultMap = Jwt.validToken(token);
-		System.out.println("校验结果是:" + resultMap.get("isSuccess"));
-		System.out.println("false的原因是（2 token不合法导致的程序异常）:"+ resultMap.get("status"));
+		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
+		System.out.println("原因是（非法token，playload参数可能经过中间人篡改，或者别人伪造的token）" );
 
 	}
 	
+	public void test4() {
+		// 校验异常的情况----------------------------------------------------------------------------------------------------
+		String token = "123";
+		System.out.println("我胡乱传一个token：" + token);
+		Map<String, Object> resultMap = Jwt.validToken(token);
+		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
+		System.out.println("原因是（token格式不合法导致的程序异常）");
+
+	}
+	
+	
+	public String getResult(String state) {
+		switch (TokenState.getTokenState(state)) {
+		case VALID:
+			//To do somethings
+			state = "有效token";
+			break;
+		case EXPIRED:
+			state = "过期token";
+			break;
+		case INVALID:
+			state = "无效的token";
+			break;
+		}
+		return state;
+	}
 
 }
