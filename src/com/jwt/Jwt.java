@@ -76,7 +76,6 @@ public class Jwt {
 				JSONObject jsonOBj = payload.toJSONObject();
 				// token校验成功（此时没有校验是否过期）
 				resultMap.put("state", TokenState.VALID.toString());
-				resultMap.put("data", jsonOBj);
 				// 若playload包含ext字段，则校验是否过期
 				if (jsonOBj.containsKey("ext")) {
 					long extTime = (long) jsonOBj.get("ext");
@@ -87,6 +86,7 @@ public class Jwt {
 						resultMap.put("state", TokenState.EXPIRED.toString());
 					}
 				}
+				resultMap.put("data", jsonOBj);
 
 			} else {
 				// 校验失败
