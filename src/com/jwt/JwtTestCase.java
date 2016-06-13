@@ -22,11 +22,7 @@ public class JwtTestCase {
 		payload.put("uid", "291969452");// 用户id
 		payload.put("iat", date.getTime());// 生成时间:当前
 		payload.put("ext", date.getTime() + 2000 * 60 * 60);// 过期时间2小时
-		try {
-			token = Jwt.createToken(payload);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		token = Jwt.createToken(payload);
 		System.out.println("新生成的token是：" + token+"\n马上将该token进行校验");
 		Map<String, Object> resultMap = Jwt.validToken(token);
 		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
@@ -43,11 +39,7 @@ public class JwtTestCase {
 		payload.put("uid", "291969452");// 用户id
 		payload.put("iat", date.getTime());// 生成时间
 		payload.put("ext", date.getTime());// 过期时间就是当前
-		try {
-			token = Jwt.createToken(payload);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		token = Jwt.createToken(payload);
 		System.out.println("新生成的token是：" + token+"\n马上将该token进行校验");
 		Map<String, Object> resultMap = Jwt.validToken(token);
 		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
@@ -62,11 +54,7 @@ public class JwtTestCase {
 		Date date = new Date();
 		payload.put("uid", "291969452");// 用户id
 		payload.put("iat", date.getTime());// 生成时间
-		try {
-			token = Jwt.createToken(payload);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		token = Jwt.createToken(payload);
 		System.out.println("新生成的token是：" + token+"\n马上将该token进行校验");
 		Map<String, Object> resultMap = Jwt.validToken(token);
 		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
@@ -84,11 +72,7 @@ public class JwtTestCase {
 		payload.put("iat", date.getTime());// 生成时间
 		payload.put("ext", date.getTime());// 过期时间就是当前
 		
-		try {
-			token = Jwt.createToken(payload);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		token = Jwt.createToken(payload);
 		System.out.println("新生成的token是：" + token);
 		System.out.println("将新生成的token加点调料再来进行校验");
 		token = token + "YouAreSB";
