@@ -44,14 +44,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 					$.ajax({
 						type:"get",
+						dataType:"json",
 						url:"http://localhost:8080/JWT/author/token?r="+Math.random(),
 						async:true,
 						beforeSend: function(request) {
 	                        request.setRequestHeader("token", token);
 	                    },
 						success:function (data) {
-							debugger
-							$("#result").val(data);
+							$("#result").val(JSON.stringify(data));
 						}
 					});
 				});

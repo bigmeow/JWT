@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.minidev.json.JSONObject;
+
 import com.jwt.Jwt;
 @WebServlet(urlPatterns="/author/token",loadOnStartup=1,description="生成token的方法")
 public class AuthorServlet extends HttpServlet {
@@ -25,8 +27,9 @@ public class AuthorServlet extends HttpServlet {
 			String token=request.getHeader("token");
 			System.out.println(token);
 			Map<String, Object> result=Jwt.validToken(token);
+			//转JSON并输出
 			PrintWriter out = response.getWriter();
-			out.println(result.toString());
+			out.println(new JSONObject(result).toJSONString());
 			out.flush();
 			out.close();
 	}
