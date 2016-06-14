@@ -42,10 +42,10 @@ public class Jwt {
 	 * @param Map集合，可以存储用户id，token生成时间，token过期时间等自定义字段
 	 * @return token字符串,若失败则返回null
 	 */
-	public static String createToken(Map<String, Object> playLoad) {
+	public static String createToken(Map<String, Object> payload) {
 		String tokenString=null;
 		// 创建一个 JWS object
-		JWSObject jwsObject = new JWSObject(header, new Payload(new JSONObject(playLoad)));
+		JWSObject jwsObject = new JWSObject(header, new Payload(new JSONObject(payload)));
 		try {
 			// 将jwsObject 进行HMAC签名
 			jwsObject.sign(new MACSigner(SECRET));
@@ -76,7 +76,7 @@ public class Jwt {
 				JSONObject jsonOBj = payload.toJSONObject();
 				// token校验成功（此时没有校验是否过期）
 				resultMap.put("state", TokenState.VALID.toString());
-				// 若playload包含ext字段，则校验是否过期
+				// 若payload包含ext字段，则校验是否过期
 				if (jsonOBj.containsKey("ext")) {
 					long extTime = (long) jsonOBj.get("ext");
 					long curTime = new Date().getTime();

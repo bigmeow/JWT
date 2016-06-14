@@ -27,7 +27,7 @@ public class JwtTestCase {
 		Map<String, Object> resultMap = Jwt.validToken(token);
 		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
 		HashMap<String,String> dataobj =  (HashMap<String,String>) resultMap.get("data");
-		System.out.println("从token中取出的playload数据是：" +dataobj.toString());
+		System.out.println("从token中取出的payload数据是：" +dataobj.toString());
 
 	}
 
@@ -59,7 +59,7 @@ public class JwtTestCase {
 		Map<String, Object> resultMap = Jwt.validToken(token);
 		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
 		HashMap<String,String> dataobj =  (HashMap<String,String>) resultMap.get("data");
-		System.out.println("从token中取出的playload数据是：" +dataobj.toString());
+		System.out.println("从token中取出的payload数据是：" +dataobj.toString());
 
 	}
 	
@@ -78,7 +78,7 @@ public class JwtTestCase {
 		token = token + "YouAreSB";
 		Map<String, Object> resultMap = Jwt.validToken(token);
 		System.out.println("校验结果是:" + getResult((String)resultMap.get("state")) );
-		System.out.println("原因是（非法token，playload参数可能经过中间人篡改，或者别人伪造的token）" );
+		System.out.println("原因是（非法token，payload参数可能经过中间人篡改，或者别人伪造的token）" );
 
 	}
 	

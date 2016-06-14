@@ -46,7 +46,7 @@ public class Filter1_CheckToken  implements Filter {
 		TokenState state=TokenState.getTokenState((String)resultMap.get("state"));
 		switch (state) {
 		case VALID:
-			//取出playload中数据,放入到request作用域中
+			//取出payload中数据,放入到request作用域中
 			request.setAttribute("data", resultMap.get("data"));
 			//放行
 			chain.doFilter(request, response);
