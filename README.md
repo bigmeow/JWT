@@ -1,5 +1,9 @@
 #JWT
 ##项目介绍
+###预备知识（可能需要科学上网）
++ <a href="http://blog.leapoahead.com/2015/09/06/understanding-jwt/" target="_blank">JSON Web Token（JWT)是什么鬼</a>
++ <a href="http://blog.leapoahead.com/2015/09/07/user-authentication-with-jwt/" target="_blank">八幅漫画理解使用JSON Web Token设计单点登录系统</a>
+
 ###流程图
 ![image](https://github.com/bigmeow/JWT/blob/master/WebRoot/flowsheet.JPG)
 ###目录结构
