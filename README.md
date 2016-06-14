@@ -6,16 +6,20 @@
 ├── src
 |    └── com
 |        |── filter
-|        |   └── CrossOriginResourceFilter.java 
+|        |   └── Filter0_CrossOriginResource.java (跨域过滤器)
+|		 |	 └── Filter1_CheckToken.java	(token校验过滤器)
 |        ├── jwt
 |        │   └── Jwt.java
-|        │   └── JwtTestCase.java
+|        │   └── JwtTestCase.java （测试用例）
+|        │   └── TokenState.java  （token状态枚举）
 |        |
 |        └── servlet
 |            └── AuthorServlet.java
 ├── WebRoot
 |   |── WEB-INFO
 |   |── index.jsp
+|	|── login.html
+|	|── main.html
 |   └── jquery-2.1.0.js
 ```
 ##由于使用了servlet3.0语法，运行环境要求JDK7以及以上，Tomcat7以及以上（根目录下附带降级版本，支持jdk1.6,tomcat6）
@@ -74,3 +78,6 @@ System.out.println("返回结果数据是：" +result.toString());
 
 
 ```
+
+##一些坑
+跨域过滤器一定要比其他过滤器先执行，不然会有些问题：在web.xml文件中，过滤器的执行顺序是按照在web.xml中从上到下书写的顺序来执行的；在servlet3.0注解中，filter执行顺序是按照文件名自然排序来决定执行顺序的，比如名字叫A的filter就比B先执行
