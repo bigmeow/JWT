@@ -17,13 +17,13 @@ import com.thetransactioncompany.cors.CORSFilter;
  */
 @WebFilter(urlPatterns={"/*"},asyncSupported=true,
 initParams={
-	@WebInitParam(name="cors.allowOrigin",value="*"),/**正式上线时，应在此处配置为正式域名*/
+	@WebInitParam(name="cors.allowOrigin",value="*"),
 	@WebInitParam(name="cors.supportedMethods",value="CONNECT, DELETE, GET, HEAD, OPTIONS, POST, PUT, TRACE"),
-	@WebInitParam(name="cors.supportedHeaders",value="Accept, Origin, X-Requested-With, Content-Type, Last-Modified"),
+	@WebInitParam(name="cors.supportedHeaders",value="token,Accept, Origin, X-Requested-With, Content-Type, Last-Modified"),//注意，如果token字段放在请求头传到后端，这里需要配置
 	@WebInitParam(name="cors.exposedHeaders",value="Set-Cookie"),
 	@WebInitParam(name="cors.supportsCredentials",value="true")
 })
-public class CrossOriginResourceFilter extends CORSFilter implements javax.servlet.Filter{
+public class Filter0_CrossOriginResource extends CORSFilter implements javax.servlet.Filter{
 
 
 	public void init(FilterConfig config) throws ServletException {
@@ -32,6 +32,7 @@ public class CrossOriginResourceFilter extends CORSFilter implements javax.servl
 	}
 	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		System.out.println("跨域过滤器");
 		super.doFilter(request, response, chain);
 	}
 
