@@ -1,5 +1,8 @@
 #JWT
 ##项目介绍
+###流程图
+![image](https://github.com/bigmeow/JWT/blob/master/WebRoot/flowsheet.JPG)
+###目录结构
 ```
 .
 ├── README.md
