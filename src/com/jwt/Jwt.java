@@ -78,7 +78,7 @@ public class Jwt {
 				resultMap.put("state", TokenState.VALID.toString());
 				// 若payload包含ext字段，则校验是否过期
 				if (jsonOBj.containsKey("ext")) {
-					long extTime = (long) jsonOBj.get("ext");
+					long extTime = Long.valueOf(jsonOBj.get("ext").toString());
 					long curTime = new Date().getTime();
 					// 过期了
 					if (curTime > extTime) {
