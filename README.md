@@ -29,7 +29,7 @@
 |	|── main.html
 |   └── jquery-2.1.0.js
 ```
-##由于使用了servlet3.0语法，运行环境要求JDK7以及以上，Tomcat7以及以上（根目录下附带降级版本，支持jdk1.6,tomcat6）
+##由于使用了servlet3.0语法，运行环境要求JDK7以及以上，Tomcat7以及以上<s>（ 根目录下附带降级版本，支持jdk1.6,tomcat6 ,暂不可用，有空再更新） </s>
 本项目依赖于下面jar包：
 + nimbus-jose-jwt-4.13.1.jar (一款开源的成熟的JSON WEB TOKEN 解决方法，本仓库的代码是对其的进一步封装)
 + json-smart-2.0-RC2.jar和asm-1.0-RC1.jar (依赖jar包，主要用于JSONObject序列化)
